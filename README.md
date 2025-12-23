@@ -1,80 +1,133 @@
-# OA Coder
+# OA Coder (Perplexity Overlay Edition)
 
-OA Coder is an Electron application that captures screenshots and leverages the OpenAI API to analyze them. It can solve questions, generate code, or provide detailed answers based on screenshots. The app supports both single screenshot processing and multi-page mode for capturing multiple images before analysis.
+OA Coder is a lightweight **Electron desktop overlay** that embeds **Perplexity.ai** inside a transparent, always-on-top window.
+It behaves like a native Perplexity desktop app with **persistent login**, global keyboard shortcuts, and fine-grained window control.
+
+This version **removes all screenshot capture and AI processing logic** and focuses purely on providing a fast, distraction-free Perplexity experience.
+
+---
 
 ## Features
 
-- **Screenshot Capture:** Use global keyboard shortcuts to capture the screen.
-- **OpenAI Integration:** Send captured screenshots to OpenAI's chat API for automated analysis.
-- **Multi-Screenshot Support:** Capture multiple screenshots before processing.
-- **Customizable UI:** Transparent, always-on-top window with adjustable opacity and zoom.
-- **Window Management:** Move window and toggle visibility with keyboard shortcuts.
-- **Global Shortcuts:** Easily control the application using Alt-based keyboard shortcuts.
+* **Perplexity Embedded:** Access Perplexity.ai directly inside the app.
+* **Persistent Login:** Login once — sessions, cookies, and localStorage persist across restarts.
+* **Always-on-Top Overlay:** Stay productive while browsing or coding.
+* **Transparent Window:** Minimal UI that blends with your workflow.
+* **Window Management:** Move, hide/show, resize, and control opacity.
+* **Zoom Controls:** Adjust zoom level on the fly.
+* **Global Shortcuts:** Control everything using Alt-based keyboard shortcuts.
+* **Cross-Platform:** Works on macOS, Windows, and Linux.
+
+---
+
+## What This App Is (and Is Not)
+
+### ✅ This app **is**
+
+* A Perplexity desktop wrapper
+* A floating research / coding companion
+* A keyboard-driven productivity overlay
+
+### ❌ This app **is NOT**
+
+* A screenshot-based solver
+* An OpenAI API client
+* A background automation or scraping tool
+* A browser replacement
+
+---
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org/) (v14 or later recommended)
-- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
-- An OpenAI API key
+* [Node.js](https://nodejs.org/) (v14 or later recommended)
+* [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+
+> ⚠️ No OpenAI API key is required.
+
+---
 
 ## Installation
 
-1. **Clone the repository:**
+1. **Clone the repository**
 
+   ```bash
+   git clone <url-of-this-repo>
+   cd inv-browser
    ```
-   git clone https://github.com/archangel0x01/oa-coder.git
-   cd oa-coder
-   ```
-2. **Install the dependencies:**
-   ```
+
+2. **Install dependencies**
+
+   ```bash
    npm install
    ```
-3. **Configure the application:**
-   Create a config.json file in the project root with your OpenAI API key and (optionally) your desired model. For example:
-    ```
-    {
-      "apiKey": "YOUR_OPENAI_API_KEY",
-      "model": "gpt-4o-mini"
-    }
-    ```
-  - Note: If the model field is omitted, the application defaults to "gpt-4o-mini".
 
+3. **Start the application**
+
+   ```bash
+   npm start
+   ```
+
+---
 
 ## Usage
 
-1. **Start the Application:**
-    Run the following command to launch OA Coder:
-    ```
-    npm start
-    ```
-2. **Global Keyboard Shortcuts:**
+### First Launch
 
-   **Screenshot & Processing:**
-   - **Alt+H:** Take a screenshot and add it to the queue
-   - **Alt+L:** Delete the last screenshot from the queue
-   - **Alt+Enter:** Process all captured screenshots with AI
-   - **Alt+R:** Start a new problem (reset and clear all screenshots)
+* The app opens Perplexity.ai inside the Electron window.
+* Login normally using your Perplexity account.
+* Close the app.
+* On next launch, **you will remain logged in**.
 
-   **Window Controls:**
-   - **Alt+B:** Toggle window visibility (show/hide)
-   - **Alt+Q:** Quit the application
-   - **Alt+Arrow Keys:** Move the window (Up/Down/Left/Right)
-   - **Alt+[:** Decrease window opacity
-   - **Alt+]:** Increase window opacity
-   - **Alt+-:** Zoom out
-   - **Alt+0:** Reset zoom to default
-   - **Alt+=:** Zoom in
+---
 
-   **Language Selection:**
-   - **Alt+1:** TypeScript (default)
-   - **Alt+2:** Golang
-   - **Alt+3:** C++
-   - **Alt+4:** Python
+## Global Keyboard Shortcuts
 
+### Window Visibility
 
-## Status
+* **Alt+B** → Toggle window visibility (show / hide)
+* **Alt+Q** → Quit the application
 
-This program is still under development. Some features may not be fully implemented, and there might be bugs or incomplete functionality. Your feedback and contributions are welcome as we work towards a more stable release.
+### Window Movement
 
+* **Alt+↑** → Move window up
+* **Alt+↓** → Move window down
+* **Alt+←** → Move window left
+* **Alt+→** → Move window right
 
-**Personal Thoughts**: Inspired by interviewcoder.co but didn't like the idea of gatekeeping **cheating** softwares behind paywalls. Like you're literally cheating wtf man? And this might help incompetent software engineers join the company and eat it from the inside forcing companies to realise that Leetcode isn't the only way people should get hired and there are other alternative ways to assess a candidate's abilities.
+### Opacity Control
+
+* **Alt+[** → Decrease window opacity
+* **Alt+]** → Increase window opacity
+
+### Zoom Control
+
+* **Alt+-** → Zoom out
+* **Alt+0** → Reset zoom to default
+* **Alt+=** → Zoom in
+
+---
+
+## How Login Persistence Works
+
+The app uses Electron’s **persistent session partition**:
+
+```
+persist:perplexity-session
+```
+
+This means:
+
+* Cookies are stored on disk
+* LocalStorage is preserved
+* No re-login on restart
+* Works similarly to Chrome profiles
+
+---
+
+## Security Notes
+
+* `nodeIntegration` is disabled
+* `contextIsolation` is enabled
+* Perplexity runs inside an isolated WebView
+* No credentials are intercepted or stored manually
+
