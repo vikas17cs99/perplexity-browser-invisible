@@ -1,57 +1,69 @@
-# OA Coder (Perplexity Overlay Edition)
+# OA Coder (AI Overlay Edition)
 
-OA Coder is a lightweight **Electron desktop overlay** that embeds **Perplexity.ai** inside a transparent, always-on-top window.
-It behaves like a native Perplexity desktop app with **persistent login**, global keyboard shortcuts, and fine-grained window control.
+OA Coder is a lightweight **Electron desktop overlay** that embeds popular AI assistants — **ChatGPT, Gemini, and Perplexity** — inside a transparent, always-on-top window.
 
-This version **removes all screenshot capture and AI processing logic** and focuses purely on providing a fast, distraction-free Perplexity experience.
-
----
-
-## Features
-
-* **Perplexity Embedded:** Access Perplexity.ai directly inside the app.
-* **Persistent Login:** Login once — sessions, cookies, and localStorage persist across restarts.
-* **Always-on-Top Overlay:** Stay productive while browsing or coding.
-* **Transparent Window:** Minimal UI that blends with your workflow.
-* **Window Management:** Move, hide/show, resize, and control opacity.
-* **Zoom Controls:** Adjust zoom level on the fly.
-* **Global Shortcuts:** Control everything using Alt-based keyboard shortcuts.
-* **Cross-Platform:** Works on macOS, Windows, and Linux.
+It behaves like a native desktop app with **persistent login**, **global keyboard shortcuts**, and **fine-grained window control**, making it ideal as a floating research or coding companion.
 
 ---
 
-## What This App Is (and Is Not)
+## ✨ Features
+
+* **Multi-AI Support**
+
+  * ChatGPT
+  * Gemini
+  * Perplexity
+* **CLI Provider Selection** at startup
+* **Persistent Login**
+
+  * Login once per provider
+  * Sessions persist across restarts
+* **Always-on-Top Overlay**
+* **Transparent, Frameless Window**
+* **Keyboard-Driven Controls**
+* **Zoom & Opacity Controls**
+* **Per-Provider Session Isolation**
+* **Cross-Platform**
+
+  * macOS
+  * Windows
+  * Linux
+
+---
+
+## 🧠 What This App Is (and Is Not)
 
 ### ✅ This app **is**
 
-* A Perplexity desktop wrapper
-* A floating research / coding companion
-* A keyboard-driven productivity overlay
+* A desktop wrapper for ChatGPT, Gemini, and Perplexity
+* A floating AI assistant overlay
+* A productivity and research companion
+* A keyboard-first tool
 
 ### ❌ This app **is NOT**
 
+* An OpenAI / Gemini API client
 * A screenshot-based solver
-* An OpenAI API client
-* A background automation or scraping tool
 * A browser replacement
+* A scraping or automation tool
 
 ---
 
-## Prerequisites
+## 📦 Prerequisites
 
 * [Node.js](https://nodejs.org/) (v14 or later recommended)
-* [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+* npm or yarn
 
-> ⚠️ No OpenAI API key is required.
+> ⚠️ No API keys are required.
 
 ---
 
-## Installation
+## 🚀 Installation
 
 1. **Clone the repository**
 
    ```bash
-   git clone <url-of-this-repo>
+   git clone <repo-url>
    cd inv-browser
    ```
 
@@ -69,65 +81,111 @@ This version **removes all screenshot capture and AI processing logic** and focu
 
 ---
 
-## Usage
+## 🧭 Provider Selection (CLI)
 
-### First Launch
+On startup, you’ll be prompted to choose an AI provider:
 
-* The app opens Perplexity.ai inside the Electron window.
-* Login normally using your Perplexity account.
-* Close the app.
-* On next launch, **you will remain logged in**.
+```text
+Choose AI Provider:
+1) ChatGPT
+2) Gemini
+3) Perplexity
+
+Enter choice (1/2/3):
+```
+
+The selected provider opens inside the overlay window.
 
 ---
 
-## Global Keyboard Shortcuts
+## 🔐 Login & Session Persistence
+
+Each provider uses its **own persistent Electron session partition**, for example:
+
+```
+persist:chatgpt
+persist:gemini
+persist:perplexity
+```
+
+This ensures:
+
+* Login persists across restarts
+* Cookies and localStorage are saved
+* Providers do NOT log each other out
+* Sessions remain fully isolated
+
+Login once per provider — you stay logged in.
+
+---
+
+## 🎹 Global Keyboard Shortcuts
 
 ### Window Visibility
 
-* **Alt+B** → Toggle window visibility (show / hide)
-* **Alt+Q** → Quit the application
+* **Alt + B** → Toggle window visibility
+* **Alt + Q** → Quit application
 
 ### Window Movement
 
-* **Alt+↑** → Move window up
-* **Alt+↓** → Move window down
-* **Alt+←** → Move window left
-* **Alt+→** → Move window right
+* **Alt + ↑** → Move up
+* **Alt + ↓** → Move down
+* **Alt + ←** → Move left
+* **Alt + →** → Move right
 
 ### Opacity Control
 
-* **Alt+[** → Decrease window opacity
-* **Alt+]** → Increase window opacity
+* **Alt + [** → Decrease opacity
+* **Alt + ]** → Increase opacity
 
 ### Zoom Control
 
-* **Alt+-** → Zoom out
-* **Alt+0** → Reset zoom to default
-* **Alt+=** → Zoom in
+* **Alt + -** → Zoom out
+* **Alt + 0** → Reset zoom
+* **Alt + =** → Zoom in
 
 ---
 
-## How Login Persistence Works
+## 🎤 Microphone & Audio Support
 
-The app uses Electron’s **persistent session partition**:
+The app supports **voice input and audio output** (where supported by the provider).
 
-```
-persist:perplexity-session
-```
+### macOS Users (Important)
 
-This means:
+You must allow microphone access:
 
-* Cookies are stored on disk
-* LocalStorage is preserved
-* No re-login on restart
-* Works similarly to Chrome profiles
+1. System Settings → Privacy & Security → **Microphone**
+2. Enable permission for:
+
+   * The app name **or**
+   * `Electron`
+3. Restart the app
 
 ---
 
-## Security Notes
+## 🔒 Security Notes
 
 * `nodeIntegration` is disabled
 * `contextIsolation` is enabled
-* Perplexity runs inside an isolated WebView
+* Providers run inside an isolated WebView
 * No credentials are intercepted or stored manually
+* All authentication is handled directly by the provider websites
+
+---
+
+## 🧪 Known Limitations
+
+* Voice features depend on provider availability
+* Some Electron warnings may appear in development mode
+* This is not a full browser replacement
+
+---
+
+## 🛠 Tech Stack
+
+* Electron
+* Node.js
+* Chromium WebView
+
+---
 
