@@ -2,30 +2,39 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 const appState = require('./state');
 const { registerShortcuts, unregisterShortcuts } = require('./shortcuts');
+const { askProvider } = require('./cli');
+const providers = require('./providers');
 
-function createWindow() {
-  //appState.setStage(0);
+let selectedProvider = 'perplexity';
 
-  const mainWindow = new BrowserWindow({
+async function createWindow(providerKey) {
+  const provider = providers[providerKey];
+  mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
     frame: false,
     transparent: true,
     alwaysOnTop: true,
-    contentProtection: true,
-    type: 'toolbar',
     webPreferences: {
-      nodeIntegration: false,
-      contextIsolation: true,
       sandbox: true,
+      contextIsolation: true,
       webviewTag: true,
-      partition: 'persist:perplexity-session'
+      partition: provider.partition
     }
   });
 
+
   appState.setMainWindow(mainWindow);
 
-  mainWindow.loadFile(path.join(__dirname, 'src', 'index.html'));
+  mainWindow.loadFile(
+    path.join(__dirname, 'public', 'index.html'),
+    {
+      query: {
+        url: provider.url,
+        partition: provider.partition
+      }
+    }
+  );
 
   mainWindow.setVisibleOnAllWorkspaces(true, { visibleOnFullScreen: true });
   mainWindow.setAlwaysOnTop(true, 'screen-saver', 1);
@@ -34,7 +43,10 @@ function createWindow() {
   registerShortcuts();
 }
 
-app.whenReady().then(createWindow);
+app.whenReady().then(async () => {
+  const provider = await askProvider();
+  await createWindow(provider);
+});
 
 app.on('window-all-closed', () => {
   unregisterShortcuts();

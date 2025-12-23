@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
+
+    webview {
+      width: 100%;
+      height: 100%;
+      border-radius: 14px;
+    }
+  </style>
+</head>
+
+<body>
+<webview id="ai"></webview>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const url = params.get('url');
+  const partition = params.get('partition');
+
+  const webview = document.getElementById('ai');
+  webview.src = url;
+  webview.partition = partition;
+
+  webview.addEventListener('dom-ready', () => {
+    console.log('Loaded:', url, 'Partition:', partition);
+  });
+</script>
+</body>
+</html>
