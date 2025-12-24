@@ -2,8 +2,7 @@ const appState = require('./state');
 const { screen } = require('electron');
 
 // Configuration
-const MOVE_STEP = 50;
-const RESIZE_STEP = 100;
+const RESIZE_STEP = 50;
 
 function handleToggleVisibility() {
   const win = appState.mainWindow;
