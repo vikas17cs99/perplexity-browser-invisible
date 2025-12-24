@@ -19,33 +19,17 @@ function handleToggleVisibility() {
 }
 
 function handleMoveWindow(direction) {
-  const win = appState.mainWindow;
-  if (!win) return;
+  const bounds = appState.mainWindow.getBounds();
+  const step = 50;
 
-  const bounds = win.getBounds();
-  let { x, y } = bounds;
+  const map = {
+    up: { x: bounds.x, y: bounds.y - step },
+    down: { x: bounds.x, y: bounds.y + step },
+    left: { x: bounds.x - step, y: bounds.y },
+    right: { x: bounds.x + step, y: bounds.y }
+  };
 
-  // We calculate the NEW position regardless of current boundaries.
-  // This prevents getting "stuck" at 0.
-  switch (direction) {
-    case 'up':
-      y -= MOVE_STEP;
-      break;
-    case 'down':
-      y += MOVE_STEP;
-      break;
-    case 'left':
-      x -= MOVE_STEP;
-      break;
-    case 'right':
-      x += MOVE_STEP;
-      break;
-  }
-
-  // Optional: Prevent losing the window entirely, but allow it to touch edges
-  // If you want it strictly on screen, use screen.getDisplayNearestPoint
-  // For now, raw coordinates solve your "stuck" issue best.
-  win.setPosition(x, y);
+  appState.mainWindow.setBounds(map[direction]);
 }
 
 function handleResizeWindow(direction) {

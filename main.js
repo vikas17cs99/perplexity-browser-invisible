@@ -16,6 +16,7 @@ async function createWindow(providerKey) {
     frame: false,
     transparent: true,
     alwaysOnTop: true,
+    enableLargerThanScreen: true,
     webPreferences: {
       sandbox: true,
       contextIsolation: true,
