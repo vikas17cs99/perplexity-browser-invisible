@@ -1,14 +1,15 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const appState = require('./state');
 const { registerShortcuts, unregisterShortcuts } = require('./shortcuts');
 const { askProvider } = require('./cli');
 const providers = require('./providers');
 
-let selectedProvider = 'perplexity';
+let mainWindow = null;
 
 async function createWindow(providerKey) {
   const provider = providers[providerKey];
+
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -19,10 +20,11 @@ async function createWindow(providerKey) {
       sandbox: true,
       contextIsolation: true,
       webviewTag: true,
-      partition: provider.partition
+      partition: provider.partition,
+      preload: path.join(__dirname, 'preload.js'),
+      autoplayPolicy: 'no-user-gesture-required'
     }
   });
-
 
   appState.setMainWindow(mainWindow);
 
@@ -31,7 +33,8 @@ async function createWindow(providerKey) {
     {
       query: {
         url: provider.url,
-        partition: provider.partition
+        partition: provider.partition,
+        provider: providerKey
       }
     }
   );
@@ -42,6 +45,17 @@ async function createWindow(providerKey) {
 
   registerShortcuts();
 }
+
+// 🔁 Switch provider from UI
+ipcMain.on('switch-provider', async (_, providerKey) => {
+  if (!providers[providerKey]) return;
+
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.destroy();
+  }
+
+  await createWindow(providerKey);
+});
 
 app.whenReady().then(async () => {
   const provider = await askProvider();
