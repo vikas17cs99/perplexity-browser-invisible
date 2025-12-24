@@ -133,6 +133,12 @@ Login once per provider — you stay logged in.
 * **Alt + ←** → Move left
 * **Alt + →** → Move right
 
+
+### Window Resizing
+* **Alt + .** → Increase window size
+* **Alt + ,** → Decrease window size
+
+
 ### Opacity Control
 
 * **Alt + [** → Decrease opacity
